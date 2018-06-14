@@ -71,9 +71,11 @@ function Get-Duplicate {
                         if ($_ -is [string]) {
                             $PSBoundParameters.Remove('InputObject') > $null
                             Get-Duplicate -Path $_ @PSBoundParameters
-                        }elseif ($_ -is [System.IO.FileInfo]) {
+                        }elseif ($_ -is [System.IO.FileSystemInfo]) {
                             $PSBoundParameters.Remove('InputObject') > $null
                             Get-Duplicate -Path $_.FullName @PSBoundParameters
+                        }else {
+                            Get-Duplicate -Path ($_ | Out-String) @PSBoundParameters
                         }
                     }
                 }
