@@ -1,5 +1,5 @@
-# Get-Duplicates
-A Powershell module that can list duplicate files
+# Get-Duplicate
+A Powershell module that find duplicate files.
 To widen the scope to be across-folder, use the `-Recurse` switch. By default, the scope is within-folder.
 To list unique files, use the `-Inverse` switch.
 To filter `-Include`, `-Exclude`, and `-ExcludeDirectory` switches
