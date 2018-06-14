@@ -79,10 +79,15 @@ function Get-Duplicate {
                 }
             }else {
                 $fileSearchParams = @{
-                    Path = $Path
                     File = $true
                     Recurse = $Recurse
                     #ReadOnly = $true
+                }
+                if ($Path) {
+                    $fileSearchParams['Path'] = $Path
+                }
+                if ($LiteralPath) {
+                    $fileSearchParams['Path'] = $LiteralPath
                 }
                 if ($Exclude) {
                     $fileSearchParams['Exclude'] = $Exclude
