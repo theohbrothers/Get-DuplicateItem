@@ -5,8 +5,13 @@ To widen the scope to be across-folder, use the `-Recurse` switch. By default, t
 
 To list unique files, use the `-Inverse` switch.
 
-To filter `-Include`, `-Exclude`, and `-ExcludeDirectory` switches
-Additionally, `-AsHashtable` returns a hashtable containing: `[string]$md5` = `[array]$files`
+To filter `-Include`, `-Exclude`, and `-ExcludeDirectory` switches.
+
+Additionally, `-AsHashtable` returns a hashtable containing: 
+
+```powershell
+[string]$md5 = [arraylist]$files
+```
 
 ## Command line
 ```powershell
