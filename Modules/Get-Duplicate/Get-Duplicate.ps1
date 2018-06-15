@@ -1,16 +1,53 @@
-# Search a given path for duplicates, returning a search result object
-# In recurse mode, duplicates will be located among all files found across all folder nodes starting from a given path
-# In inverse mode, unique files will be located instead of duplicate files.
-# If hashtable mode is specified, a hashtable will be returned in format @{ [string]"$md5" = [FileInfo[]]$files }
+<#
+.SYNOPSIS
+A Powershell module that find duplicate files within a given folder.
+
+.DESCRIPTION
+A Powershell module that find duplicate files within a given folder. It may also expand it's search scope to all descendent items of that folder.
+
+.PARAMETER InputObject
+Parameter description
+
+.PARAMETER Path
+Folder to search for duplicate files.
+
+.PARAMETER LiteralPath
+Folder to search for duplicate files.
+
+.PARAMETER Recurse
+Expand the scope of the duplicate file search to be across all descendent files of the given folder.
+
+.PARAMETER Exclude
+Omits the specified items. The value of this parameter qualifies the -Path parameter. Enter a path element or pattern, such as "*.txt". Wildcards are permitted.
+
+.PARAMETER Include
+Gets only the specified items. The value of this parameter qualifies the -Path parameter. Enter a path element or pattern, such as "*.txt". Wildcards are permitted.
+
+.PARAMETER ExcludeDirectory
+Omits searching any descendent directory matching the entered name or pattern. Enter a name or pattern, such as "*secret". Wildcards are permitted.
+
+.PARAMETER Inverse
+Get only non-duplicate files. By default the Cmdlet returns duplicate files.
+
+.PARAMETER AsHashtable
+Get the result as a Hashtable, where duplicates are grouped in file hashes.
+
+.EXAMPLE
+Get-Duplicate -Path 'C:/my_folder_with_duplicates'
+
+.EXAMPLE
+Get-Duplicate -Path 'C:/my_folder_with_duplicates' -Recurse -ExcludeDirectory 'specialDirectory' 
+
+.NOTES
+When using the -Recurse parameter, the md5 hash of each descendent file has to be calculated, in order for 
+comparison against all other descendent files' md5 hash. 
+Therefore, if using Get-Duplicate with the -Recurse parameter on a folder containing many large descendent files, 
+it is to be expected that the Cmdlet might take several seconds to several minutes to complete, depending on the
+size of those files. 
+#>
 function Get-Duplicate {
     [cmdletbinding()]
     param(
-        [Parameter(ValueFromPipeline, ParameterSetName="Pipeline",
-            #Position=0,
-            Mandatory=$false)]
-        [ValidateNotNullOrEmpty()]
-        [PSObject[]]$InputObject
-    ,
         [Parameter(ParameterSetName="Path",
             Position=0,
             Mandatory=$true)]
@@ -57,6 +94,11 @@ function Get-Duplicate {
     ,
         [Parameter(Mandatory=$false)]
         [switch]$AsHashtable
+    ,
+        [Parameter(ValueFromPipeline, ParameterSetName="Pipeline",
+            Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+        [PSObject[]]$InputObject
     )
 
     begin {
@@ -71,7 +113,7 @@ function Get-Duplicate {
                         if ($_ -is [string]) {
                             $PSBoundParameters.Remove('InputObject') > $null
                             Get-Duplicate -Path $_ @PSBoundParameters
-                        }elseif ($_ -is [System.IO.FileSystemInfo]) {
+                        }elseif ($_ -is [System.IO.DirectoryInfo]) {
                             $PSBoundParameters.Remove('InputObject') > $null
                             Get-Duplicate -Path $_.FullName @PSBoundParameters
                         }else {

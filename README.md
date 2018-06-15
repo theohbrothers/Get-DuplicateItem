@@ -1,11 +1,14 @@
 # Get-Duplicate
-A Powershell module that find duplicate files.
 
-To widen the scope to be across-folder, use the `-Recurse` switch. By default, the scope is within-folder.
+A Powershell module that find duplicate files within a given folder.
+
+To widen the duplicate search scope to be across all descendent files, use the `-Recurse` switch. By default, the scope is within-folder.
+
+To filter the search, use the `-Include`, `-Exclude`, and `-ExcludeDirectory` switches.
 
 To list unique files, use the `-Inverse` switch.
 
-To filter `-Include`, `-Exclude`, and `-ExcludeDirectory` switches.
+The module supports pipelining either folder paths, or DirectoryInfo objects.
 
 Additionally, `-AsHashtable` returns a hashtable containing: 
 
@@ -14,6 +17,7 @@ Additionally, `-AsHashtable` returns a hashtable containing:
 ```
 
 ## Command line
+
 ```powershell
 NAME
     Get-Duplicate
