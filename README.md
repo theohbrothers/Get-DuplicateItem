@@ -16,6 +16,18 @@ Additionally, `-AsHashtable` returns a hashtable containing:
 [string]$md5 = [arraylist]$files
 ```
 
+## Example
+
+```powershell
+Get-Duplicate -Path 'C:/folder1' -Recurse
+
+# Pipeline DirectoryInfo objects
+Get-Item 'C:/folder1' | Get-Duplicate 
+
+# Pipeline folder paths
+'C:/folder1' | Get-Duplicate 
+```
+
 ## Command line
 
 ```powershell
