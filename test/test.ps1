@@ -5,7 +5,7 @@ $global:PesterDebugPreference_ShowFullErrors = $true
 
 # Install Pester if needed
 $pester = Get-Module Pester -ListAvailable -ErrorAction SilentlyContinue
-if ( $pester -and $pester.Version.Major -lt 4 ) {
+if ( ! $pester -or $pester.Version.Major -lt 4 ) {
     Install-Module Pester -Force -Scope CurrentUser
 }
 Get-Module Pester -ListAvailable
