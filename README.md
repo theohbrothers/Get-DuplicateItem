@@ -19,7 +19,7 @@ Additionally, `-AsHashtable` returns a hashtable containing:
 ## Install
 
 ```powershell
-Install-Module -Name Pester -Force
+Install-Module -Name Get-Duplicate -Force
 ```
 
 ## Examples
