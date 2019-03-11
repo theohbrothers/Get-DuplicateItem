@@ -1,5 +1,7 @@
 # Get-Duplicate
 
+[![Build Status](https://travis-ci.org/leojonathanoh/Get-Duplicate.svg?branch=master)](https://travis-ci.org/leojonathanoh/Get-Duplicate)
+
 A Powershell module that find duplicate files within a given folder.
 
 To widen the duplicate search scope to be across all descendent files, use the `-Recurse` switch. By default, the scope is within the immediate folder.
