@@ -4,7 +4,7 @@ Set-StrictMode -Version Latest
 $global:PesterDebugPreference_ShowFullErrors = $true
 
 # Install Pester if needed
-if (! ( Get-Module Pester -ErrorAction SilentlyContinue ) ) {
+if (! ( Get-Module Pester -ListAvailable -ErrorAction SilentlyContinue ) ) {
     Install-Module Pester -Force -Scope CurrentUser
 }
 
