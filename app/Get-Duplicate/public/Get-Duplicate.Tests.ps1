@@ -105,7 +105,7 @@ Describe "Get-Duplicate" {
         It 'Returns duplicate file paths' {
             $result = Get-Duplicate -Path $parentDir
 
-            $result | Should -HaveCount 2
+            $result.Count | Should -Be 2
         }
 
         It 'Returns duplicate file paths as hashtable' {
@@ -117,7 +117,7 @@ Describe "Get-Duplicate" {
         It 'Returns duplicate file paths as hashtable with one key' {
             $result = Get-Duplicate -Path $parentDir -AsHashtable
 
-            $result.Keys.Count | Should -HaveCount 1
+            $result.Keys.Count | Should -Be 1
         }
 
         It 'Returns duplicate file paths as hashtable with two values' {
@@ -164,13 +164,13 @@ Describe "Get-Duplicate" {
         It 'Returns non-duplicates file paths' {
             $result = Get-Duplicate -Path $parentDir -Inverse
 
-            $result | Should -HaveCount 1
+            $result | Should -BeOfType System.IO.FileInfo
         }
 
         It 'Returns non-duplicates file paths as hashtable with one key' {
             $result = Get-Duplicate -Path $parentDir -Inverse -AsHashtable
 
-            $result.Keys.Count | Should -HaveCount 1
+            $result.Keys.Count | Should -Be 1
         }
 
         It 'Returns non-duplicates file paths as hashtable with two values' {
