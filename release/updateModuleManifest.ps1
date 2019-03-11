@@ -3,7 +3,7 @@
 . "$( Split-Path $PSScriptRoot -Parent )/env.ps1"
 
 function Get-FunctionsToExport {
-    Get-ChildItem "$APP_PUBLIC_DIR/*" -exclude *.Tests.ps1 | ForEach-Object { $_.BaseName }
+    Get-ChildItem "$APP_MODULE_PUBLIC_DIR/*" -exclude *.Tests.ps1 | ForEach-Object { $_.BaseName }
 }
 
 $params = @{
@@ -14,7 +14,7 @@ $params = @{
     Author = $( git config user.name )
     CompanyName  = 'The Oh Brothers'
     Copyright = "Copyright (c) $( Get-Date -Format 'YYYY' ) by $( git config user.name ), licensed under MIT License"
-    Description = "A module that prints 'Hello world'!"
+    Description = "A module to find and list duplicate files"
     PowerShellVersion = '2.0'
     FunctionsToExport = @( Get-FunctionsToExport )
 
