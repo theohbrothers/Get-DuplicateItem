@@ -1,1 +1,6 @@
-tests
+/.*
+!/.gitignore
+!/.gitattributes
+!/.travis.yml
+
+/package/psgallery

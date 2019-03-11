@@ -2,7 +2,7 @@
 
 A Powershell module that find duplicate files within a given folder.
 
-To widen the duplicate search scope to be across all descendent files, use the `-Recurse` switch. By default, the scope is within-folder.
+To widen the duplicate search scope to be across all descendent files, use the `-Recurse` switch. By default, the scope is within the immediate folder.
 
 To filter the search, use the `-Include`, `-Exclude`, and `-ExcludeDirectory` switches.
 
@@ -10,34 +10,33 @@ To list unique files, use the `-Inverse` switch.
 
 The module supports pipelining either folder paths, or DirectoryInfo objects.
 
-Additionally, `-AsHashtable` returns a hashtable containing: 
+Additionally, `-AsHashtable` returns a hashtable containing:
 
 ```powershell
 [string]$md5 = [arraylist]$files
 ```
 
-## Example
+## Install
 
 ```powershell
-Get-Duplicate -Path 'C:/folder1' -Recurse
-
-# Pipeline DirectoryInfo objects
-Get-Item 'C:/folder1' | Get-Duplicate 
-
-# Pipeline folder paths
-'C:/folder1' | Get-Duplicate 
+Install-Module -Name Get-Duplicate -Force
 ```
 
-## Command line
+## Examples
 
 ```powershell
-NAME
-    Get-Duplicate
+# Get duplicate files in this folder only
+Get-Duplicate -Path 'C:/folder1'
 
-SYNTAX
-    Get-Duplicate [-InputObject <psobject[]>] [-Recurse] [-Exclude <string>] [-Include <string>] [-ExcludeDirectory <string>] [-Inverse] [-AsHashtable]  [<CommonParameters>]
+# Get duplicate files in this folder and its descendents
+Get-Duplicate -Path 'C:/folder1' -Recurse
 
-    Get-Duplicate [-Path] <string> [-Recurse] [-Exclude <string>] [-Include <string>] [-ExcludeDirectory <string>] [-Inverse] [-AsHashtable]  [<CommonParameters>]
+# Get non-duplicate files in this folder and its descendents
+Get-Duplicate -Path 'C:/folder1' -Recurse -Inverse
 
-	Get-Duplicate -LiteralPath <string> [-Recurse] [-Exclude <string>] [-Include <string>] [-ExcludeDirectory <string>] [-Inverse] [-AsHashtable]  [<CommonParameters>]
+# Alternatively, you may pipeline DirectoryInfo objects
+Get-Item 'C:/folder1' | Get-Duplicate
+
+# Or folder paths
+'C:/folder1' | Get-Duplicate
 ```
