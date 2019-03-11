@@ -121,7 +121,7 @@ function Get-Duplicate {
                 $fileSearchParams['Include'] = $Include
             }
 
-            $hashes_unique = @{} # format: md5str => FileInfo
+            $hashes_unique = @{} # format: md5str => FileInfo[]
             $hashes_duplicates = @{} # format: md5str => FileInfo[]
             # Get all files found only within this directory
             & { if ($ExcludeDirectory) {
@@ -132,12 +132,12 @@ function Get-Duplicate {
             } | Sort-Object Name, Extension | ForEach-Object {
                 $md5 = (Get-FileHash -LiteralPath $_.FullName -Algorithm MD5).Hash # md5 hash of this file
                 if ( ! $hashes_unique.ContainsKey($md5) ) {
-                    $hashes_unique[$md5] = $_
+                    $hashes_unique[$md5] = @( $_ )
                 }else {
                     # Duplicate!
                     if (!$hashes_duplicates.ContainsKey($md5)) {
                         $hashes_duplicates[$md5] = [System.Collections.Arraylist]@()
-                        $hashes_duplicates[$md5].Add($hashes_unique[$md5]) > $null
+                        $hashes_duplicates[$md5].Add($hashes_unique[$md5][0]) > $null
                     }
                     $hashes_duplicates[$md5].Add($_) > $null
                 }
@@ -150,9 +150,11 @@ function Get-Duplicate {
             # }
 
             if ($Inverse) {
+                # Remove any keys that are in the duplicates hash
                 $( $hashes_unique.Keys ) | ? { $hashes_duplicates.ContainsKey($_) } | ForEach-Object {
                     $hashes_unique.Remove($_) > $null
                 }
+
                 if ($AsHashtable) {
                     $hashes_unique
                 }else {

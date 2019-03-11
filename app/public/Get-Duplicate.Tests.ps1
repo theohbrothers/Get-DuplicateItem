@@ -9,26 +9,26 @@ Describe "Get-Duplicate" {
         $invalidPath =  "TestDrive:\foo"
 
         It 'Shows error when Path does not exist' {
-            Get-Duplicate -Path $invalidPath -ErrorVariable err 2>$null
+            Get-Duplicate -Path $invalidPath -ErrorVariable err -ErrorAction Continue 2>$null
 
             $err.Count | Should Not Be 0
         }
 
         It 'Shows error when LiteralPath does not exist' {
-            Get-Duplicate -LiteralPath $invalidPath -ErrorVariable err 2>$null
+            Get-Duplicate -LiteralPath $invalidPath -ErrorVariable err -ErrorAction Continue 2>$null
 
             $err.Count | Should Not Be 0
         }
 
         It 'Shows error when pipeline object is not a string' {
             $invalidPathCollection = @( @( "foo", "bar") )
-            $invalidPathCollection | Get-Duplicate -ErrorVariable err 2>$null
+            $invalidPathCollection | Get-Duplicate -ErrorVariable err -ErrorAction Continue 2>$null
 
             $err.Count | Should Not Be 0
         }
 
         It 'Shows error when pipeline object is not an existing Path' {
-            $invalidPath | Get-Duplicate -ErrorVariable err 2>$null
+            $invalidPath | Get-Duplicate -ErrorVariable err -ErrorAction Continue 2>$null
 
             $err.Count | Should Not Be 0
         }
@@ -117,7 +117,7 @@ Describe "Get-Duplicate" {
         It 'Returns duplicate file paths as hashtable with one key' {
             $result = Get-Duplicate -Path $parentDir -AsHashtable
 
-            $result.Keys.Count | Should -be 1
+            $result.Keys.Count | Should -HaveCount 1
         }
 
         It 'Returns duplicate file paths as hashtable with two values' {
@@ -128,13 +128,13 @@ Describe "Get-Duplicate" {
             # This causes the accessing of a hashtable value (using its key) to return an array containing the value. Using the .Count property always returns 1.
             # $key = $result.Keys[0]
             $key = $result.Keys | Select-Object -First 1
-            $result[$key].Count | Should -be 2
+            $result[$key].Count | Should -Be 2
         }
 
         It 'Returns duplicate file paths across all child folders' {
             $result = Get-Duplicate -Path $parentDir -AsHashtable -Recurse
 
-            $result.Keys.Count | Should -be 1
+            $result.Keys.Count | Should -Be 1
         }
 
         It 'Returns duplicate file paths across all child folders' {
@@ -164,13 +164,13 @@ Describe "Get-Duplicate" {
         It 'Returns non-duplicates file paths' {
             $result = Get-Duplicate -Path $parentDir -Inverse
 
-            $result.Count | Should -be 1
+            $result | Should -HaveCount 1
         }
 
         It 'Returns non-duplicates file paths as hashtable with one key' {
             $result = Get-Duplicate -Path $parentDir -Inverse -AsHashtable
 
-            $result | Should -HaveCount 1
+            $result.Keys.Count | Should -HaveCount 1
         }
 
         It 'Returns non-duplicates file paths as hashtable with two values' {
@@ -181,13 +181,13 @@ Describe "Get-Duplicate" {
             # This causes the accessing of a hashtable value (using its key) to return an array containing the value. Using the .Count property always returns 1.
             # $key = $result.Keys[0]
             $key = $result.Keys | Select-Object -First 1
-            $result[$key].Count | Should -be 1
+            $result[$key].Count | Should -Be 1
         }
 
         It 'Returns non-duplicates file paths across all child folders' {
             $result = Get-Duplicate -Path $parentDir -Inverse -AsHashtable -Recurse
 
-            $result.Keys.Count | Should -be 2
+            $result.Keys.Count | Should -Be 2
         }
 
         It 'Returns non-duplicates file paths across all child folders' {
@@ -198,7 +198,7 @@ Describe "Get-Duplicate" {
             # This causes the accessing of a hashtable value (using its key) to return an array containing the value. Using the .Count property always returns 1.
             # $key = $result.Keys[0]
             $key = $result.Keys | Select-Object -First 1
-            $result[$key].Count | Should -be 1
+            $result[$key].Count | Should -Be 1
         }
 
     }
