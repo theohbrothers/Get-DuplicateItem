@@ -7,6 +7,8 @@ $global:PesterDebugPreference_ShowFullErrors = $true
 if (! ( Get-Module Pester -ListAvailable -ErrorAction SilentlyContinue ) ) {
     Install-Module Pester -Force -Scope CurrentUser
 }
+Get-Module Pester -ListAvailable
+
 
 # Import our module
 Get-Module "$MODULE_NAME" | Remove-Module
