@@ -12,7 +12,7 @@
 RootModule = 'Get-Duplicate.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.0.0'
+ModuleVersion = '1.0.1'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -98,7 +98,7 @@ PrivateData = @{
         Tags = 'hello','world'
 
         # A URL to the license for this module.
-        LicenseUri = 'https://github.com/leojonathanoh/Get-Duplicate/blob/1.0.0/LICENSE'
+        LicenseUri = 'https://github.com/leojonathanoh/Get-Duplicate/blob/1.0.1/LICENSE'
 
         # A URL to the main website for this project.
         ProjectUri = 'https://github.com/leojonathanoh/Get-Duplicate'
@@ -107,7 +107,7 @@ PrivateData = @{
         # IconUri = ''
 
         # ReleaseNotes of this module
-        ReleaseNotes = 'https://github.com/leojonathanoh/Get-Duplicate/releases/tag/1.0.0'
+        ReleaseNotes = 'https://github.com/leojonathanoh/Get-Duplicate/releases/tag/1.0.1'
 
         # Prerelease string of this module
         # Prerelease = ''
