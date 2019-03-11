@@ -12,7 +12,7 @@
 RootModule = 'Get-Duplicate.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.0.1'
+ModuleVersion = '1.0.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -30,7 +30,7 @@ CompanyName = 'The Oh Brothers'
 Copyright = 'Copyright (c) YYYY by Leo, licensed under MIT License'
 
 # Description of the functionality provided by this module
-Description = 'A module that prints ''Hello world''!'
+Description = 'A module to find and list duplicate files'
 
 # Minimum version of the PowerShell engine required by this module
 PowerShellVersion = '2.0'
@@ -98,7 +98,7 @@ PrivateData = @{
         Tags = 'hello','world'
 
         # A URL to the license for this module.
-        LicenseUri = 'https://github.com/leojonathanoh/Get-Duplicate/blob/1.0.1/LICENSE'
+        LicenseUri = 'https://github.com/leojonathanoh/Get-Duplicate/blob/1.0.0/LICENSE'
 
         # A URL to the main website for this project.
         ProjectUri = 'https://github.com/leojonathanoh/Get-Duplicate'
@@ -107,7 +107,7 @@ PrivateData = @{
         # IconUri = ''
 
         # ReleaseNotes of this module
-        ReleaseNotes = 'https://github.com/leojonathanoh/Get-Duplicate/releases/tag/1.0.1'
+        ReleaseNotes = 'https://github.com/leojonathanoh/Get-Duplicate/releases/tag/1.0.0'
 
         # Prerelease string of this module
         # Prerelease = ''
@@ -119,7 +119,7 @@ PrivateData = @{
         # ExternalModuleDependencies = @()
 
     } # End of PSData hashtable
-
+    
  } # End of PrivateData hashtable
 
 # HelpInfo URI of this module
