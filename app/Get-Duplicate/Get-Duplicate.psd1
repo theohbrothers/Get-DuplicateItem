@@ -27,7 +27,7 @@ Author = 'Leo'
 CompanyName = 'The Oh Brothers'
 
 # Copyright statement for this module
-Copyright = 'Copyright (c) YYYY by Leo, licensed under MIT License'
+Copyright = 'Copyright (c) 2019 by Leo, licensed under MIT License'
 
 # Description of the functionality provided by this module
 Description = 'A module to find and list duplicate files'
