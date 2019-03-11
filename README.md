@@ -20,6 +20,8 @@ Additionally, `-AsHashtable` returns a hashtable containing:
 
 ## Install
 
+Get-Duplicate works with `Powershell V3` and above on Windows, or [`Powershell Core`](https://github.com/powershell/powershell).
+
 ```powershell
 Install-Module -Name Get-Duplicate -Force
 ```
