@@ -27,18 +27,18 @@ Install-Module -Name Get-Duplicate -Force
 ## Examples
 
 ```powershell
-# Get duplicate files in this folder only
+# Get duplicate files in 'C:/folder1' only
 Get-Duplicate -Path 'C:/folder1'
 
-# Get duplicate files in this folder and its descendents
+# Get duplicate files in 'C:/folder1' and its descendents
 Get-Duplicate -Path 'C:/folder1' -Recurse
 
-# Get non-duplicate files in this folder and its descendents
+# Get non-duplicate files in 'C:/folder1' and its descendents
 Get-Duplicate -Path 'C:/folder1' -Recurse -Inverse
 
-# Alternatively, you may pipeline DirectoryInfo objects
-Get-Item 'C:/folder1' | Get-Duplicate
-
-# Or folder paths
+# Alternatively, you may pipeline folder paths
 'C:/folder1' | Get-Duplicate
+
+# Or  DirectoryInfo objects
+Get-Item 'C:/folder1' | Get-Duplicate
 ```
