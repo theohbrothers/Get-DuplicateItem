@@ -19,4 +19,4 @@ matrix:
             - powershell
 
 script:
-  - pwsh -c 'Set-StrictMode -Version Latest; $global:PesterDebugPreference_ShowFullErrors = $true ;Import-Module ./app/.psd1; Invoke-Pester -EnableExit'
+  - pwsh -c './test/test.ps1'
