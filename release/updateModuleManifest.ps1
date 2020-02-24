@@ -19,11 +19,11 @@ $params = @{
     FunctionsToExport = @( Get-FunctionsToExport )
 
     #Category = ''
-    Tags = 'hello', 'world'
-    ProjectUri = "https://github.com/$NAMESPACE/$MODULE_NAME"
+    Tags = 'duplicate', 'item'
+    ProjectUri = "https://github.com/$PROJECT_NAMESPACE/$MODULE_NAME"
     IconUri = ''
-    LicenseUri = "https://github.com/$NAMESPACE/$MODULE_NAME/blob/$MODULE_VERSION/LICENSE"
-    ReleaseNotes  = "https://github.com/$NAMESPACE/$MODULE_NAME/releases/tag/$MODULE_VERSION"
+    LicenseUri = "https://github.com/$PROJECT_NAMESPACE/$MODULE_NAME/blob/$MODULE_VERSION/LICENSE"
+    ReleaseNotes  = "https://github.com/$PROJECT_NAMESPACE/$MODULE_NAME/releases/tag/$MODULE_VERSION"
     Prerelease = ''
 }
 

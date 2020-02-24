@@ -1,6 +1,6 @@
 $ErrorActionPreference = 'Stop'
 
-$NAMESPACE = 'leojonathanoh'
+$PROJECT_NAMESPACE = 'leojonathanoh'
 
 $BASE_DIR = $PSScriptRoot
 $MODULE_NAME = (Get-Item $BASE_DIR).Name
