@@ -13,10 +13,10 @@ Get-Module Pester -ListAvailable
 
 # Import our module
 Get-Module "$MODULE_NAME" | Remove-Module
-Import-Module "$APP_MODULE_DIR/$MODULE_NAME.psd1" -Force
+Import-Module "$SRC_MODULE_DIR/$MODULE_NAME.psd1" -Force
 
 # Run tests
-$res = Invoke-Pester -Script $APP_MODULE_DIR -PassThru
+$res = Invoke-Pester -Script $SRC_MODULE_DIR -PassThru
 if ($res.FailedCount -gt 0) {
     "$( $res.FailedCount ) tests failed."
     exit 1

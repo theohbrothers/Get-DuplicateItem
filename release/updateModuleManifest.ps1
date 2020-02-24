@@ -3,7 +3,7 @@
 . "$( Split-Path $PSScriptRoot -Parent )/env.ps1"
 
 function Get-FunctionsToExport {
-    Get-ChildItem "$APP_MODULE_PUBLIC_DIR/*" -exclude *.Tests.ps1 | ForEach-Object { $_.BaseName }
+    Get-ChildItem "$SRC_MODULE_PUBLIC_DIR/*" -exclude *.Tests.ps1 | ForEach-Object { $_.BaseName }
 }
 
 $params = @{
