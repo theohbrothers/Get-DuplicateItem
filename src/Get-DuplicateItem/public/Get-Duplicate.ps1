@@ -33,19 +33,19 @@ Get only non-duplicate files. By default the Cmdlet returns duplicate files.
 Get the result as a Hashtable, where duplicates are grouped in file hashes.
 
 .EXAMPLE
-Get-Duplicate -Path 'C:/my_folder_with_duplicates'
+Get-DuplicateItem -Path 'C:/my_folder_with_duplicates'
 
 .EXAMPLE
-Get-Duplicate -Path 'C:/my_folder_with_duplicates' -Recurse -ExcludeDirectory 'specialDirectory'
+Get-DuplicateItem -Path 'C:/my_folder_with_duplicates' -Recurse -ExcludeDirectory 'specialDirectory'
 
 .NOTES
 When using the -Recurse parameter, the md5 hash of each descendent file has to be calculated, in order for
 comparison against all other descendent files' md5 hash.
-Therefore, if using Get-Duplicate with the -Recurse parameter on a folder containing many large descendent files,
+Therefore, if using Get-DuplicateItem with the -Recurse parameter on a folder containing many large descendent files,
 it is to be expected that the Cmdlet might take several seconds to several minutes to complete, depending on the
 size of those files.
 #>
-function Get-Duplicate {
+function Get-DuplicateItem {
     [CmdletBinding(DefaultParameterSetName='Path')]
     param(
         [Parameter(ParameterSetName="Path", Mandatory=$true, Position=0)]

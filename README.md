@@ -1,6 +1,6 @@
-# Get-Duplicate
+# Get-DuplicateItem
 
-[![Build Status](https://travis-ci.org/leojonathanoh/Get-Duplicate.svg?branch=master)](https://travis-ci.org/leojonathanoh/Get-Duplicate)
+[![Build Status](https://travis-ci.org/leojonathanoh/Get-DuplicateItem.svg?branch=master)](https://travis-ci.org/leojonathanoh/Get-DuplicateItem)
 
 A Powershell module to find and list duplicate files.
 
@@ -20,27 +20,27 @@ Additionally, `-AsHashtable` returns a hashtable containing:
 
 ## Install
 
-Get-Duplicate works with `Powershell V3` and above on Windows, or [`Powershell Core`](https://github.com/powershell/powershell).
+Get-DuplicateItem works with `Powershell V3` and above on Windows, or [`Powershell Core`](https://github.com/powershell/powershell).
 
 ```powershell
-Install-Module -Name Get-Duplicate -Force
+Install-Module -Name Get-DuplicateItem -Force
 ```
 
 ## Examples
 
 ```powershell
 # Get duplicate files in 'C:/folder1' only
-Get-Duplicate -Path 'C:/folder1'
+Get-DuplicateItem -Path 'C:/folder1'
 
 # Get duplicate files in 'C:/folder1' and its descendents
-Get-Duplicate -Path 'C:/folder1' -Recurse
+Get-DuplicateItem -Path 'C:/folder1' -Recurse
 
 # Get non-duplicate files in 'C:/folder1' and its descendents
-Get-Duplicate -Path 'C:/folder1' -Recurse -Inverse
+Get-DuplicateItem -Path 'C:/folder1' -Recurse -Inverse
 
-# Alternatively, you may pipeline folder paths
-'C:/folder1' | Get-Duplicate
+# Alternatively, you may pipe folder paths
+'C:/folder1' | Get-DuplicateItem
 
-# Or  DirectoryInfo objects
-Get-Item 'C:/folder1' | Get-Duplicate
+# Or DirectoryInfo objects
+Get-Item 'C:/folder1' | Get-DuplicateItem
 ```
