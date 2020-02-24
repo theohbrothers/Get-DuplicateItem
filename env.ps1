@@ -1,19 +1,19 @@
 $ErrorActionPreference = 'Stop'
 
-$NAMESPACE = 'leojonathanoh'
-
 $BASE_DIR = $PSScriptRoot
-$MODULE_NAME = (Get-Item $BASE_DIR).Name
-$APP_DIR = "$BASE_DIR/app"
-$APP_MODULE_DIR = "$APP_DIR/$MODULE_NAME"
-$APP_MODULE_PUBLIC_DIR = "$APP_MODULE_DIR/public"
-$APP_MODULE_PRIVATE_DIR = "$APP_MODULE_DIR/private"
-$APP_MODULE_HELPER_DIR = "$APP_MODULE_DIR/helper"
-$RELEASE_DIR = "$BASE_DIR/release"
-$TEST_DIR = "$BASE_DIR/test"
-$PUBLISH_DIR = "$BASE_DIR/publish"
-$PUBLISH_PSGALLERY_DIR = "$PUBLISH_DIR/psgallery"
 
-$MODULE_VERSION = '1.0.1'
-$MODULE_MANIFEST_FILE = "$APP_MODULE_DIR/$MODULE_NAME.psd1"
+$REPO_NAMESPACE = (Get-Item $BASE_DIR).Parent.Name
+$REPO_NAME = (Get-Item $BASE_DIR).Name
 
+$MODULE_NAME = $REPO_NAME
+$MODULE_VERSION = git describe --tags --exact-match
+
+$PUBLISH_DIR = Join-Path $BASE_DIR "publish"
+$PUBLISH_PSGALLERY_DIR = Join-Path $PUBLISH_DIR "psgallery"
+$RELEASE_DIR = Join-Path $BASE_DIR "release"
+$SRC_DIR = Join-Path $BASE_DIR "src"
+$SRC_MODULE_DIR = Join-Path $SRC_DIR $MODULE_NAME
+$SRC_MODULE_PUBLIC_DIR = Join-Path $SRC_MODULE_DIR "public"
+$TEST_DIR = Join-Path $BASE_DIR "test"
+
+$MODULE_MANIFEST_FILE = Join-Path $SRC_MODULE_DIR "$MODULE_NAME.psd1"
