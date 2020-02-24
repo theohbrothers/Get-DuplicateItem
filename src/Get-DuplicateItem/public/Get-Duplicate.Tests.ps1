@@ -2,33 +2,33 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 $sut = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -replace '\.Tests\.', '.'
 . "$here\$sut"
 
-Describe "Get-Duplicate" {
+Describe "Get-DuplicateItem" {
 
     Context 'Non-terminating errors' {
 
         $invalidPath =  "TestDrive:\foo"
 
         It 'Shows error when Path does not exist' {
-            Get-Duplicate -Path $invalidPath -ErrorVariable err -ErrorAction Continue 2>$null
+            Get-DuplicateItem -Path $invalidPath -ErrorVariable err -ErrorAction Continue 2>$null
 
             $err.Count | Should Not Be 0
         }
 
         It 'Shows error when LiteralPath does not exist' {
-            Get-Duplicate -LiteralPath $invalidPath -ErrorVariable err -ErrorAction Continue 2>$null
+            Get-DuplicateItem -LiteralPath $invalidPath -ErrorVariable err -ErrorAction Continue 2>$null
 
             $err.Count | Should Not Be 0
         }
 
         It 'Shows error when pipeline object is not a string' {
             $invalidPathCollection = @( @( "foo", "bar") )
-            $invalidPathCollection | Get-Duplicate -ErrorVariable err -ErrorAction Continue 2>$null
+            $invalidPathCollection | Get-DuplicateItem -ErrorVariable err -ErrorAction Continue 2>$null
 
             $err.Count | Should Not Be 0
         }
 
         It 'Shows error when pipeline object is not an existing Path' {
-            $invalidPath | Get-Duplicate -ErrorVariable err -ErrorAction Continue 2>$null
+            $invalidPath | Get-DuplicateItem -ErrorVariable err -ErrorAction Continue 2>$null
 
             $err.Count | Should Not Be 0
         }
@@ -40,21 +40,21 @@ Describe "Get-Duplicate" {
         $invalidPath =  "TestDrive:\foo"
 
         It 'Throws exception when Path does not exist' {
-            { Get-Duplicate -Path $invalidPath -ErrorAction Stop } | Should Throw
+            { Get-DuplicateItem -Path $invalidPath -ErrorAction Stop } | Should Throw
         }
 
         It 'Throws exception when LiteralPath does not exist' {
-            { Get-Duplicate -LiteralPath $invalidPath -ErrorAction Stop 2>$null } | Should Throw
+            { Get-DuplicateItem -LiteralPath $invalidPath -ErrorAction Stop 2>$null } | Should Throw
         }
 
         It 'Throws exception when pipeline object is not an existing Path' {
-            { $invalidPath | Get-Duplicate -ErrorAction Stop 2>$null } | Should Throw
+            { $invalidPath | Get-DuplicateItem -ErrorAction Stop 2>$null } | Should Throw
         }
 
         It 'Throws exception when pipeline object is not a string' {
             $invalidPathCollection = @( @( "foo", "bar") )
 
-            { $invalidPathCollection | Get-Duplicate -ErrorAction Stop 2>$null } | Should Throw
+            { $invalidPathCollection | Get-DuplicateItem -ErrorAction Stop 2>$null } | Should Throw
         }
 
     }
@@ -64,26 +64,26 @@ Describe "Get-Duplicate" {
         $invalidPath =  "TestDrive:\foo"
 
         It 'Remains silent when Path does not exist' {
-            $err = Get-Duplicate -Path $invalidPath -ErrorVariable err -ErrorAction SilentlyContinue
+            $err = Get-DuplicateItem -Path $invalidPath -ErrorVariable err -ErrorAction SilentlyContinue
 
             $err | Should Be $null
         }
 
         It 'Remains silent when LiteralPath does not exist' {
-            $err = Get-Duplicate -Path $invalidPath -ErrorVariable err -ErrorAction SilentlyContinue
+            $err = Get-DuplicateItem -Path $invalidPath -ErrorVariable err -ErrorAction SilentlyContinue
 
             $err | Should Be $null
         }
 
         It 'Remains silent when pipeline object is not a string' {
             $invalidPathCollection = @( @( "foo", "bar") )
-            $err = $invalidPathCollection | Get-Duplicate -ErrorVariable err -ErrorAction SilentlyContinue
+            $err = $invalidPathCollection | Get-DuplicateItem -ErrorVariable err -ErrorAction SilentlyContinue
 
             $err | Should Be $null
         }
 
         It 'Remains silent when pipeline object is not an existing Path' {
-            $err = $invalidPath | Get-Duplicate -ErrorVariable err -ErrorAction SilentlyContinue
+            $err = $invalidPath | Get-DuplicateItem -ErrorVariable err -ErrorAction SilentlyContinue
 
             $err | Should Be $null
         }
@@ -103,25 +103,25 @@ Describe "Get-Duplicate" {
         'foo'           | Out-File -Path "$childDir\file2" -Encoding utf8 -Force
 
         It 'Returns duplicate file paths' {
-            $result = Get-Duplicate -Path $parentDir
+            $result = Get-DuplicateItem -Path $parentDir
 
             $result.Count | Should -Be 2
         }
 
         It 'Returns duplicate file paths as hashtable' {
-            $result = Get-Duplicate -Path $parentDir -AsHashtable
+            $result = Get-DuplicateItem -Path $parentDir -AsHashtable
 
             $result | Should -BeOfType [hashtable]
         }
 
         It 'Returns duplicate file paths as hashtable with one key' {
-            $result = Get-Duplicate -Path $parentDir -AsHashtable
+            $result = Get-DuplicateItem -Path $parentDir -AsHashtable
 
             $result.Keys.Count | Should -Be 1
         }
 
         It 'Returns duplicate file paths as hashtable with two values' {
-            $result = Get-Duplicate -Path $parentDir -AsHashtable
+            $result = Get-DuplicateItem -Path $parentDir -AsHashtable
 
             # Note: Cannot use array syntax like $result.Keys[0] because that syntax returns a KeyCollection object instead of a string!
             # See: https://stackoverflow.com/questions/26552453/powershell-hashtable-keys-property-doesnt-return-the-keys-it-returns-a-keycol
@@ -132,13 +132,13 @@ Describe "Get-Duplicate" {
         }
 
         It 'Returns duplicate file paths across all child folders' {
-            $result = Get-Duplicate -Path $parentDir -AsHashtable -Recurse
+            $result = Get-DuplicateItem -Path $parentDir -AsHashtable -Recurse
 
             $result.Keys.Count | Should -Be 1
         }
 
         It 'Returns duplicate file paths across all child folders' {
-            $result = Get-Duplicate -Path $parentDir -AsHashtable -Recurse
+            $result = Get-DuplicateItem -Path $parentDir -AsHashtable -Recurse
 
             # Note: Cannot use array syntax like $result.Keys[0] because that syntax returns a KeyCollection object instead of a string!
             # See: https://stackoverflow.com/questions/26552453/powershell-hashtable-keys-property-doesnt-return-the-keys-it-returns-a-keycol
@@ -162,19 +162,19 @@ Describe "Get-Duplicate" {
         'foooooooo123'  | Out-File -Path "$childDir\file4" -Encoding utf8 -Force
 
         It 'Returns non-duplicates file paths' {
-            $result = Get-Duplicate -Path $parentDir -Inverse
+            $result = Get-DuplicateItem -Path $parentDir -Inverse
 
             $result | Should -BeOfType System.IO.FileInfo
         }
 
         It 'Returns non-duplicates file paths as hashtable with one key' {
-            $result = Get-Duplicate -Path $parentDir -Inverse -AsHashtable
+            $result = Get-DuplicateItem -Path $parentDir -Inverse -AsHashtable
 
             $result.Keys.Count | Should -Be 1
         }
 
         It 'Returns non-duplicates file paths as hashtable with two values' {
-            $result = Get-Duplicate -Path $parentDir -Inverse -AsHashtable
+            $result = Get-DuplicateItem -Path $parentDir -Inverse -AsHashtable
 
             # Note: Cannot use array syntax like $result.Keys[0] because that syntax returns a KeyCollection object instead of a string!
             # See: https://stackoverflow.com/questions/26552453/powershell-hashtable-keys-property-doesnt-return-the-keys-it-returns-a-keycol
@@ -185,13 +185,13 @@ Describe "Get-Duplicate" {
         }
 
         It 'Returns non-duplicates file paths across all child folders' {
-            $result = Get-Duplicate -Path $parentDir -Inverse -AsHashtable -Recurse
+            $result = Get-DuplicateItem -Path $parentDir -Inverse -AsHashtable -Recurse
 
             $result.Keys.Count | Should -Be 2
         }
 
         It 'Returns non-duplicates file paths across all child folders' {
-            $result = Get-Duplicate -Path $parentDir -Inverse -AsHashtable -Recurse
+            $result = Get-DuplicateItem -Path $parentDir -Inverse -AsHashtable -Recurse
 
             # Note: Cannot use array syntax like $result.Keys[0] because that syntax returns a KeyCollection object instead of a string!
             # See: https://stackoverflow.com/questions/26552453/powershell-hashtable-keys-property-doesnt-return-the-keys-it-returns-a-keycol
