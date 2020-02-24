@@ -35,7 +35,7 @@ Describe "Get-DuplicateItem" {
 
     }
 
-    Context 'Non-terminating errors' {
+    Context 'Terminating errors' {
 
         $invalidPath =  "TestDrive:\foo"
 
