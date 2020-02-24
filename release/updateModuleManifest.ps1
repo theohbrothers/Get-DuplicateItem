@@ -10,7 +10,8 @@ $params = @{
     Path = "$MODULE_MANIFEST_FILE"
 
     RootModule = "$MODULE_NAME.psm1"
-    ModuleVersion = $MODULE_VERSION
+    
+    ModuleVersion = "$MODULE_VERSION" -replace 'v', ''
     Author = $( git config user.name )
     CompanyName  = 'The Oh Brothers'
     Copyright = "Copyright (c) $( Get-Date -Format 'yyyy' ) by $( git config user.name ), licensed under MIT License"
@@ -20,10 +21,10 @@ $params = @{
 
     #Category = ''
     Tags = 'duplicate', 'item'
-    ProjectUri = "https://github.com/$PROJECT_NAMESPACE/$MODULE_NAME"
+    ProjectUri = "https://github.com/$REPO_NAMESPACE/$MODULE_NAME"
     IconUri = ''
-    LicenseUri = "https://github.com/$PROJECT_NAMESPACE/$MODULE_NAME/blob/$MODULE_VERSION/LICENSE"
-    ReleaseNotes  = "https://github.com/$PROJECT_NAMESPACE/$MODULE_NAME/releases/tag/$MODULE_VERSION"
+    LicenseUri = "https://github.com/$REPO_NAMESPACE/$MODULE_NAME/blob/$MODULE_VERSION/LICENSE"
+    ReleaseNotes  = "https://github.com/$REPO_NAMESPACE/$MODULE_NAME/releases/tag/$MODULE_VERSION"
     Prerelease = ''
 }
 

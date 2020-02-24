@@ -6,7 +6,7 @@ $REPO_NAMESPACE = (Get-Item $BASE_DIR).Parent.Name
 $REPO_NAME = (Get-Item $BASE_DIR).Name
 
 $MODULE_NAME = $REPO_NAME
-$MODULE_VERSION = git describe --tags --exact-match
+$MODULE_VERSION = $( git --no-pager tag -l --sort=-version:refname | Select -First 1 )
 
 $PUBLISH_DIR = Join-Path $BASE_DIR "publish"
 $PUBLISH_PSGALLERY_DIR = Join-Path $PUBLISH_DIR "psgallery"
