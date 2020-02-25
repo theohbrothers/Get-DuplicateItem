@@ -10,17 +10,17 @@ $params = @{
     Path = "$MODULE_MANIFEST_FILE"
 
     RootModule = "$MODULE_NAME.psm1"
-    
+
     ModuleVersion = "$MODULE_VERSION" -replace 'v', ''
     Author = $( git config user.name )
     CompanyName  = 'The Oh Brothers'
-    Copyright = "Copyright (c) $( Get-Date -Format 'yyyy' ) by $( git config user.name ), licensed under MIT License"
+    Copyright = "Copyright (c) $( Get-Date -Format 'yyyy' ) by $( git config user.name ), licensed under Apache License 2.0"
     Description = "A module to find and list duplicate files"
-    PowerShellVersion = '2.0'
+    PowerShellVersion = '3.0'
     FunctionsToExport = @( Get-FunctionsToExport )
 
     #Category = ''
-    Tags = 'duplicate', 'item'
+    Tags = 'get', 'find', 'list', 'duplicate', 'item', 'files'
     ProjectUri = "https://github.com/$REPO_NAMESPACE/$MODULE_NAME"
     IconUri = ''
     LicenseUri = "https://github.com/$REPO_NAMESPACE/$MODULE_NAME/blob/$MODULE_VERSION/LICENSE"
