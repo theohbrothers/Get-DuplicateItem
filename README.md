@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/leojonathanoh/Get-DuplicateItem.svg?branch=master)](https://travis-ci.org/leojonathanoh/Get-DuplicateItem)
 
-A Powershell module to find and list duplicate files.
+A Powershell module to find duplicate files.
 
 To widen the duplicate search scope to be across all descendent files, use the `-Recurse` switch. By default, the scope is within the immediate folder.
 
@@ -43,4 +43,10 @@ Get-DuplicateItem -Path 'C:/folder1' -Recurse -Inverse
 
 # Or DirectoryInfo objects
 Get-Item 'C:/folder1' | Get-DuplicateItem
+
+# Finally to remove all duplicate items
+Get-Item 'C:/folder1' | Get-DuplicateItem | Remove-Item
+
+# Finally to remove all unique items
+Get-Item 'C:/folder1' | Get-DuplicateItem -Inverse | Remove-Item
 ```
