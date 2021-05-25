@@ -18,7 +18,7 @@ Install-Module -Name Get-DuplicateItem -Repository PSGallery -Scope CurrentUser 
 
 The cmdlet supports the same parameters as `Get-ChildItem`: `-Path`, `-LiteralPath`, `-Include`, `-Exclude`, and `-Recurse`.
 
-`-AsHashtable` returns a hashtable containing `[string]$md5 = [System.Collections.ArrayList]$files`.
+Use the `-AsHashtable` switch to get a hashtable containing `[string]$md5 = [System.Collections.ArrayList]$files`.
 
 ```powershell
 # Get duplicate files in 'C:/folder1' only
