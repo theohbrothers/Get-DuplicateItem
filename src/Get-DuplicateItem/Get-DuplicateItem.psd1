@@ -98,16 +98,16 @@ PrivateData = @{
         Tags = 'get','find','list','duplicate','item','files'
 
         # A URL to the license for this module.
-        LicenseUri = 'https://github.com/leojonathanoh/Get-DuplicateItem/blob/v1.0.1/LICENSE'
+        LicenseUri = 'https://github.com/theohbrothers/Get-DuplicateItem/blob/v1.0.1/LICENSE'
 
         # A URL to the main website for this project.
-        ProjectUri = 'https://github.com/leojonathanoh/Get-DuplicateItem'
+        ProjectUri = 'https://github.com/theohbrothers/Get-DuplicateItem'
 
         # A URL to an icon representing this module.
         # IconUri = ''
 
         # ReleaseNotes of this module
-        ReleaseNotes = 'https://github.com/leojonathanoh/Get-DuplicateItem/releases/tag/v1.0.1'
+        ReleaseNotes = 'https://github.com/theohbrothers/Get-DuplicateItem/releases/tag/v1.0.1'
 
         # Prerelease string of this module
         # Prerelease = ''
