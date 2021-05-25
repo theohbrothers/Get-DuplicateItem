@@ -1,6 +1,8 @@
 # Get-DuplicateItem
 
-[![Build Status](https://travis-ci.org/theohbrothers/Get-DuplicateItem.svg?branch=master)](https://travis-ci.org/theohbrothers/Get-DuplicateItem)
+[![github-actions](https://github.com/theohbrothers/Get-DuplicateItem/workflows/ci-master-pr/badge.svg)](https://github.com/theohbrothers/Get-DuplicateItem/actions)
+[![github-release](https://img.shields.io/github/v/release/theohbrothers/Get-DuplicateItem?style=flat-square)](https://github.com/theohbrothers/Get-DuplicateItem/releases/)
+[![powershell-gallery-release](https://img.shields.io/powershellgallery/v/Get-DuplicateItem?logo=powershell&logoColor=white&label=PSGallery&labelColor=&style=flat-square)](https://www.powershellgallery.com/packages/Get-DuplicateItem/)
 
 Gets duplicate or non-duplicate files.
 
