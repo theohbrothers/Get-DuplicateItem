@@ -132,7 +132,8 @@ function Get-DuplicateItem {
             } | Sort-Object Name, Extension | ForEach-Object {
                 $md5 = (Get-FileHash -LiteralPath $_.FullName -Algorithm MD5).Hash # md5 hash of this file
                 if ( ! $hashes_unique.ContainsKey($md5) ) {
-                    $hashes_unique[$md5] = @( $_ )
+                    $hashes_unique[$md5] = [System.Collections.Arraylist]@()
+                    $hashes_unique[$md5].Add( $_ ) > $null
                 }else {
                     # Duplicate!
                     if (!$hashes_duplicates.ContainsKey($md5)) {
@@ -158,13 +159,19 @@ function Get-DuplicateItem {
                 if ($AsHashtable) {
                     $hashes_unique
                 }else {
-                    $hashes_unique.Values
+                    # Unwrap the Arraylist so we retrun System.IO.FileInfo
+                    $hashes_unique.Values | % {
+                        $_
+                    }
                 }
             }else {
                 if ($AsHashtable) {
                     $hashes_duplicates
                 }else {
-                    $hashes_duplicates.Values
+                    # Unwrap the Arraylist so we retrun System.IO.FileInfo
+                    $hashes_duplicates.Values | % {
+                        $_
+                    }
                 }
             }
         }catch {

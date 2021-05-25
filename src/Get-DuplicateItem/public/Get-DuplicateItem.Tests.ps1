@@ -2,7 +2,7 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 $sut = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -replace '\.Tests\.', '.'
 . "$here\$sut"
 
-Describe "Get-DuplicateItem" {
+Describe "Get-DuplicateItem" -Tag 'Unit' {
 
     Context 'Non-terminating errors' {
 
@@ -90,66 +90,7 @@ Describe "Get-DuplicateItem" {
 
     }
 
-    Context 'Finds duplicates' {
-
-        $parentDir = "TestDrive:\parent"
-        New-Item $parentDir -ItemType Directory -Force > $null
-        'foo'           | Out-File -Path "$parentDir\file1"  -Encoding utf8 -Force
-        'foo'           | Out-File -Path "$parentDir\file2" -Encoding utf8 -Force
-
-        $childDir = "$parentDir\child"
-        New-Item $childDir -ItemType Directory -Force > $null
-        'foo'           | Out-File -Path "$childDir\file1"  -Encoding utf8 -Force
-        'foo'           | Out-File -Path "$childDir\file2" -Encoding utf8 -Force
-
-        It 'Returns duplicate file paths' {
-            $result = Get-DuplicateItem -Path $parentDir
-
-            $result.Count | Should -Be 2
-        }
-
-        It 'Returns duplicate file paths as hashtable' {
-            $result = Get-DuplicateItem -Path $parentDir -AsHashtable
-
-            $result | Should -BeOfType [hashtable]
-        }
-
-        It 'Returns duplicate file paths as hashtable with one key' {
-            $result = Get-DuplicateItem -Path $parentDir -AsHashtable
-
-            $result.Keys.Count | Should -Be 1
-        }
-
-        It 'Returns duplicate file paths as hashtable with two values' {
-            $result = Get-DuplicateItem -Path $parentDir -AsHashtable
-
-            # Note: Cannot use array syntax like $result.Keys[0] because that syntax returns a KeyCollection object instead of a string!
-            # See: https://stackoverflow.com/questions/26552453/powershell-hashtable-keys-property-doesnt-return-the-keys-it-returns-a-keycol
-            # This causes the accessing of a hashtable value (using its key) to return an array containing the value. Using the .Count property always returns 1.
-            # $key = $result.Keys[0]
-            $key = $result.Keys | Select-Object -First 1
-            $result[$key].Count | Should -Be 2
-        }
-
-        It 'Returns duplicate file paths across all child folders' {
-            $result = Get-DuplicateItem -Path $parentDir -AsHashtable -Recurse
-
-            $result.Keys.Count | Should -Be 1
-        }
-
-        It 'Returns duplicate file paths across all child folders' {
-            $result = Get-DuplicateItem -Path $parentDir -AsHashtable -Recurse
-
-            # Note: Cannot use array syntax like $result.Keys[0] because that syntax returns a KeyCollection object instead of a string!
-            # See: https://stackoverflow.com/questions/26552453/powershell-hashtable-keys-property-doesnt-return-the-keys-it-returns-a-keycol
-            # This causes the accessing of a hashtable value (using its key) to return an array containing the value. Using the .Count property always returns 1.
-            # $key = $result.Keys[0]
-            $key = $result.Keys | Select-Object -First 1
-            $result[$key].Count | Should -be 4
-        }
-    }
-
-    Context 'Finds non-duplicatess' {
+    Context 'Behavior' {
 
         $parentDir = "TestDrive:\parent"
         New-Item $parentDir -ItemType Directory -Force > $null
@@ -159,46 +100,87 @@ Describe "Get-DuplicateItem" {
 
         $childDir = "$parentDir\child"
         New-Item $childDir -ItemType Directory -Force > $null
+        'foo'           | Out-File -Path "$childDir\file1"  -Encoding utf8 -Force
+        'foo'           | Out-File -Path "$childDir\file2" -Encoding utf8 -Force
         'foooooooo123'  | Out-File -Path "$childDir\file4" -Encoding utf8 -Force
+
+        It 'Returns duplicate file paths' {
+            $result = Get-DuplicateItem -Path $parentDir
+
+            $result.Count | Should -Be 2
+            $result | Should -BeOfType [System.IO.FileInfo]
+        }
+
+        It 'Returns duplicate file paths as hashtable: <hash> => [System.IO.FileInfo][]' {
+            $result = Get-DuplicateItem -Path $parentDir -AsHashtable
+
+            $result | Should -BeOfType [hashtable]
+            $result.Keys.Count | Should -Be 1
+            $result.Values.Count | Should -Be 1
+            # Note: Cannot use array syntax like $result.Keys[0] because that syntax returns a KeyCollection object instead of a string!
+            # See: https://stackoverflow.com/questions/26552453/powershell-hashtable-keys-property-doesnt-return-the-keys-it-returns-a-keycol
+            # This causes the accessing of a hashtable value (using its key) to return an array containing the value. Using the .Count property always returns 1.
+            # $key = $result.Keys[0]
+            $key = $result.Keys | Select-Object -First 1
+            $value = $result[$key]
+            $key | Should -BeOfType [string]
+            ,$value | Should -BeOfType [System.Collections.ArrayList]
+            $value | Should -BeOfType [System.IO.FileInfo]
+        }
+
+        It 'Returns duplicate file paths in all descendent folders' {
+            $result = Get-DuplicateItem -Path $parentDir -Recurse
+
+            $result.Count | Should -Be 4
+            $result | Should -BeOfType [System.IO.FileInfo]
+        }
 
         It 'Returns non-duplicates file paths' {
             $result = Get-DuplicateItem -Path $parentDir -Inverse
 
-            $result | Should -BeOfType System.IO.FileInfo
+            $result.Count | Should -Be 1
+            $result | Should -BeOfType [System.IO.FileInfo]
         }
 
-        It 'Returns non-duplicates file paths as hashtable with one key' {
+        It 'Returns non-duplicates file paths in all descendent folders' {
+            $result = Get-DuplicateItem -Path $parentDir -Inverse -Recurse
+
+            $result.Count | Should -Be 2
+            $result | Should -BeOfType [System.IO.FileInfo]
+        }
+
+        It 'Returns non-duplicate file paths as hashtable: <hash> => [System.IO.FileInfo][]' {
             $result = Get-DuplicateItem -Path $parentDir -Inverse -AsHashtable
 
+            $result | Should -BeOfType [hashtable]
             $result.Keys.Count | Should -Be 1
-        }
-
-        It 'Returns non-duplicates file paths as hashtable with two values' {
-            $result = Get-DuplicateItem -Path $parentDir -Inverse -AsHashtable
-
+            $result.Values.Count | Should -Be 1
             # Note: Cannot use array syntax like $result.Keys[0] because that syntax returns a KeyCollection object instead of a string!
             # See: https://stackoverflow.com/questions/26552453/powershell-hashtable-keys-property-doesnt-return-the-keys-it-returns-a-keycol
             # This causes the accessing of a hashtable value (using its key) to return an array containing the value. Using the .Count property always returns 1.
             # $key = $result.Keys[0]
             $key = $result.Keys | Select-Object -First 1
-            $result[$key].Count | Should -Be 1
+            $value = $result[$key]
+            $key | Should -BeOfType [string]
+            ,$value | Should -BeOfType [System.Collections.ArrayList]
+            $value | Should -BeOfType [System.IO.FileInfo]
         }
 
-        It 'Returns non-duplicates file paths across all child folders' {
+        It 'Returns non-duplicate file paths as hashtable: <hash> => [System.IO.FileInfo][] in all descendent folders' {
             $result = Get-DuplicateItem -Path $parentDir -Inverse -AsHashtable -Recurse
 
+            $result | Should -BeOfType [hashtable]
             $result.Keys.Count | Should -Be 2
-        }
-
-        It 'Returns non-duplicates file paths across all child folders' {
-            $result = Get-DuplicateItem -Path $parentDir -Inverse -AsHashtable -Recurse
-
+            $result.Values.Count | Should -Be 2
             # Note: Cannot use array syntax like $result.Keys[0] because that syntax returns a KeyCollection object instead of a string!
             # See: https://stackoverflow.com/questions/26552453/powershell-hashtable-keys-property-doesnt-return-the-keys-it-returns-a-keycol
             # This causes the accessing of a hashtable value (using its key) to return an array containing the value. Using the .Count property always returns 1.
             # $key = $result.Keys[0]
             $key = $result.Keys | Select-Object -First 1
-            $result[$key].Count | Should -Be 1
+            $value = $result[$key]
+            $key | Should -BeOfType [string]
+            ,$value | Should -BeOfType [System.Collections.ArrayList]
+            $value | Should -BeOfType [System.IO.FileInfo]
         }
 
     }
