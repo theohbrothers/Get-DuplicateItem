@@ -111,8 +111,32 @@ Describe "Get-DuplicateItem" -Tag 'Unit' {
             $result | Should -BeOfType [System.IO.FileInfo]
         }
 
+        It 'Returns duplicate file paths in all descendent folders' {
+            $result = Get-DuplicateItem -Path $parentDir -Recurse
+
+            ($result | Measure-Object).Count | Should -Be 4
+            $result | Should -BeOfType [System.IO.FileInfo]
+        }
+
         It 'Returns duplicate file paths as hashtable: <hash> => [System.IO.FileInfo][]' {
             $result = Get-DuplicateItem -Path $parentDir -AsHashtable
+
+            $result | Should -BeOfType [hashtable]
+            $result.Keys.Count | Should -Be 1
+            $result.Values.Count | Should -Be 1
+            # Note: Cannot use array syntax like $result.Keys[0] because that syntax returns a KeyCollection object instead of a string!
+            # See: https://stackoverflow.com/questions/26552453/powershell-hashtable-keys-property-doesnt-return-the-keys-it-returns-a-keycol
+            # This causes the accessing of a hashtable value (using its key) to return an array containing the value. Using the .Count property always returns 1.
+            # $key = $result.Keys[0]
+            $key = $result.Keys | Select-Object -First 1
+            $value = $result[$key]
+            $key | Should -BeOfType [string]
+            ,$value | Should -BeOfType [System.Collections.ArrayList]
+            $value | Should -BeOfType [System.IO.FileInfo]
+        }
+
+        It 'Returns duplicate file paths as hashtable: <hash> => [System.IO.FileInfo][] in all descendent folders' {
+            $result = Get-DuplicateItem -Path $parentDir -AsHashtable -Recurse
 
             $result | Should -BeOfType [hashtable]
             $result.Keys.Count | Should -Be 1
@@ -135,14 +159,14 @@ Describe "Get-DuplicateItem" -Tag 'Unit' {
             $result | Should -BeOfType [System.IO.FileInfo]
         }
 
-        It 'Returns non-duplicates file paths' {
+        It 'Returns non-duplicate file paths' {
             $result = Get-DuplicateItem -Path $parentDir -Inverse
 
             ($result | Measure-Object).Count | Should -Be 1
             $result | Should -BeOfType [System.IO.FileInfo]
         }
 
-        It 'Returns non-duplicates file paths in all descendent folders' {
+        It 'Returns non-duplicate file paths in all descendent folders' {
             $result = Get-DuplicateItem -Path $parentDir -Inverse -Recurse
 
             ($result | Measure-Object).Count | Should -Be 2
