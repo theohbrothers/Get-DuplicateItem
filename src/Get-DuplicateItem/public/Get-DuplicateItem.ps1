@@ -1,18 +1,18 @@
 <#
 .SYNOPSIS
-A Powershell module that find duplicate files within a given folder.
+Gets duplicate or non-duplicate files.
 
 .DESCRIPTION
-A Powershell module that find duplicate files within a given folder. It may also expand it's search scope to all descendent items of that folder.
+Gets duplicate or non-duplicate files.
 
 .PARAMETER InputObject
-Parameter description
+Folder to search.
 
 .PARAMETER Path
-Folder to search for duplicate files.
+Folder to search.
 
 .PARAMETER LiteralPath
-Folder to search for duplicate files.
+Folder to search.
 
 .PARAMETER Recurse
 Expand the scope of the duplicate file search to be across all descendent files of the given folder.
