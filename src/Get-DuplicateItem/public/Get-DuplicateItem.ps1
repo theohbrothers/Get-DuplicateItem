@@ -76,16 +76,6 @@ function Get-DuplicateItem {
         [string]$InputObject
     )
 
-    begin {
-        $callerEA = $ErrorActionPreference
-        $ErrorActionPreference = "Stop"
-
-        if ($callerEA -ne $ErrorActionPreference) {
-            $PSDefaultParameterValues['Get-ChildItem:ErrorAction'] = $callerEA
-            $PSDefaultParameterValues['Where-Object:ErrorAction'] = $callerEA
-            $PSDefaultParameterValues['ForEach-Object:ErrorAction'] = $callerEA
-        }
-    }
     process {
         try {
             if ($InputObject) {
@@ -175,7 +165,7 @@ function Get-DuplicateItem {
                 }
             }
         }catch {
-            Write-Error -ErrorRecord $_ -ErrorAction $callerEA
+            Write-Error -ErrorRecord $_
         }
     }
 }
