@@ -30,17 +30,27 @@ Get only non-duplicate files. By default the Cmdlet returns duplicate files.
 Get the result as a Hashtable, where duplicates are grouped in file hashes.
 
 .EXAMPLE
-Get-DuplicateItem -Path 'C:/my_folder_with_duplicates'
+# Get duplicate files in 'C:/folder1' only
+Get-DuplicateItem -Path 'C:/folder1'
 
 .EXAMPLE
-Get-DuplicateItem -Path 'C:/my_folder_with_duplicates' -Recurse -ExcludeDirectory 'specialDirectory'
+# Get duplicate files in 'C:/folder1' and its descendents
+Get-DuplicateItem -Path 'C:/folder1' -Recurse
+
+.EXAMPLE
+# Get non-duplicate files in 'C:/folder1' and its descendents
+Get-DuplicateItem -Path 'C:/folder1' -Recurse -Inverse
+
+.EXAMPLE
+# Remove all duplicate items
+Get-DuplicateItem Get-Item 'C:/folder1' | Remove-Item
+
+.EXAMPLE
+# Remove all non-duplicate items
+Get-DuplicateItem 'C:/folder1' -Inverse | Remove-Item
 
 .NOTES
-When using the -Recurse parameter, the md5 hash of each descendent file has to be calculated, in order for
-comparison against all other descendent files' md5 hash.
-Therefore, if using Get-DuplicateItem with the -Recurse parameter on a folder containing many large descendent files,
-it is to be expected that the Cmdlet might take several seconds to several minutes to complete, depending on the
-size of those files.
+The cmdlet calculates the md5 hash of each descendent file, to be able to identify duplicates and non-duplicates. Therefore if there are many large descendent files, it is normal for the Cmdlet to take several seconds to several minutes to complete.
 #>
 function Get-DuplicateItem {
     [CmdletBinding(DefaultParameterSetName='Path')]
