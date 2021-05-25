@@ -8,10 +8,10 @@ Gets duplicate or non-duplicate files.
 
 ## Install
 
-Get-DuplicateItem works with `Powershell V3` and above on Windows, or [`Powershell Core`](https://github.com/powershell/powershell).
+Open [`powershell`](https://docs.microsoft.com/en-us/powershell/scripting/windows-powershell/install/installing-windows-powershell?view=powershell-5.1) or [`pwsh`](https://github.com/powershell/powershell#-powershell) and type:
 
 ```powershell
-Install-Module -Name Get-DuplicateItem -Force
+Install-Module -Name Get-DuplicateItem -Repository PSGallery -Scope CurrentUser -Verbose
 ```
 
 ## Usage
