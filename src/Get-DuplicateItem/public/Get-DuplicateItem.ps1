@@ -23,9 +23,6 @@ Omits the specified items. The value of this parameter qualifies the -Path param
 .PARAMETER Include
 Gets only the specified items. The value of this parameter qualifies the -Path parameter. Enter a path element or pattern, such as "*.txt". Wildcards are permitted.
 
-.PARAMETER ExcludeDirectory
-Omits searching any descendent directory matching the entered name or pattern. Enter a name or pattern, such as "*secret". Wildcards are permitted.
-
 .PARAMETER Inverse
 Get only non-duplicate files. By default the Cmdlet returns duplicate files.
 
@@ -62,9 +59,6 @@ function Get-DuplicateItem {
     ,
         [Parameter()]
         [string]$Include = ''
-    ,
-        [Parameter()]
-        [string]$ExcludeDirectory = ''
     ,
         [Parameter()]
         [switch]$Inverse
@@ -114,12 +108,7 @@ function Get-DuplicateItem {
             $hashes_unique = @{} # format: md5str => FileInfo[]
             $hashes_duplicates = @{} # format: md5str => FileInfo[]
             # Get all files found only within this directory
-            & { if ($ExcludeDirectory) {
-                    Get-ChildItem @fileSearchParams | Where-Object { $_.Directory.Name -notmatch "^$( [regex]::Escape($ExcludeDirectory) )$" }
-                }else {
-                    Get-ChildItem @fileSearchParams
-                }
-            } | Sort-Object Name, Extension | ForEach-Object {
+            Get-ChildItem @fileSearchParams | Sort-Object Name, Extension | ForEach-Object {
                 $md5 = (Get-FileHash -LiteralPath $_.FullName -Algorithm MD5).Hash # md5 hash of this file
                 if ( ! $hashes_unique.ContainsKey($md5) ) {
                     $hashes_unique[$md5] = [System.Collections.Arraylist]@()

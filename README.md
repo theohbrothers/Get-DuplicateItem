@@ -6,7 +6,7 @@ A Powershell module to find duplicate files.
 
 To widen the duplicate search scope to be across all descendent files, use the `-Recurse` switch. By default, the scope is within the immediate folder.
 
-To filter the search, use the `-Include`, `-Exclude`, and `-ExcludeDirectory` switches.
+To filter the search, use the `-Include`, `-Exclude` switches.
 
 To list unique files, use the `-Inverse` switch.
 
