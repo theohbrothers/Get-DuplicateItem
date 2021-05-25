@@ -105,50 +105,50 @@ function Get-DuplicateItem {
                 $fileSearchParams['Include'] = $Include
             }
 
-            $hashes_unique = @{} # format: md5str => FileInfo[]
-            $hashes_duplicates = @{} # format: md5str => FileInfo[]
+            $hashesUnique = @{} # format: md5str => FileInfo[]
+            $hashesDuplicates = @{} # format: md5str => FileInfo[]
             # Get all files found only within this directory
             Get-ChildItem @fileSearchParams | Sort-Object Name, Extension | ForEach-Object {
                 $md5 = (Get-FileHash -LiteralPath $_.FullName -Algorithm MD5).Hash # md5 hash of this file
-                if ( ! $hashes_unique.ContainsKey($md5) ) {
-                    $hashes_unique[$md5] = [System.Collections.Arraylist]@()
-                    $hashes_unique[$md5].Add( $_ ) > $null
+                if ( ! $hashesUnique.ContainsKey($md5) ) {
+                    $hashesUnique[$md5] = [System.Collections.Arraylist]@()
+                    $hashesUnique[$md5].Add( $_ ) > $null
                 }else {
                     # Duplicate!
-                    if (!$hashes_duplicates.ContainsKey($md5)) {
-                        $hashes_duplicates[$md5] = [System.Collections.Arraylist]@()
-                        $hashes_duplicates[$md5].Add($hashes_unique[$md5][0]) > $null
+                    if (!$hashesDuplicates.ContainsKey($md5)) {
+                        $hashesDuplicates[$md5] = [System.Collections.Arraylist]@()
+                        $hashesDuplicates[$md5].Add($hashesUnique[$md5][0]) > $null
                     }
-                    $hashes_duplicates[$md5].Add($_) > $null
+                    $hashesDuplicates[$md5].Add($_) > $null
                 }
             }
 
             # The first object will be the Original object (shortest file name).
-            # @($hashes_duplicates.Keys) | ForEach-Object {
+            # @($hashesDuplicates.Keys) | ForEach-Object {
             #     $md5 = $_
-            #     $hashes_duplicates[$md5] = $hashes_duplicates[$md5] | Sort-Object { $_.Name.Length }
+            #     $hashesDuplicates[$md5] = $hashesDuplicates[$md5] | Sort-Object { $_.Name.Length }
             # }
 
             if ($Inverse) {
                 # Remove any keys that are in the duplicates hash
-                $( $hashes_unique.Keys ) | ? { $hashes_duplicates.ContainsKey($_) } | ForEach-Object {
-                    $hashes_unique.Remove($_) > $null
+                $( $hashesUnique.Keys ) | ? { $hashesDuplicates.ContainsKey($_) } | ForEach-Object {
+                    $hashesUnique.Remove($_) > $null
                 }
 
                 if ($AsHashtable) {
-                    $hashes_unique
+                    $hashesUnique
                 }else {
                     # Unwrap the Arraylist so we retrun System.IO.FileInfo
-                    $hashes_unique.Values | % {
+                    $hashesUnique.Values | ForEach-Object {
                         $_
                     }
                 }
             }else {
                 if ($AsHashtable) {
-                    $hashes_duplicates
+                    $hashesDuplicates
                 }else {
                     # Unwrap the Arraylist so we retrun System.IO.FileInfo
-                    $hashes_duplicates.Values | % {
+                    $hashesDuplicates.Values | ForEach-Object {
                         $_
                     }
                 }
