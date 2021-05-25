@@ -39,7 +39,7 @@ Get-DuplicateItem -Path 'C:/folder1' -Recurse -AsHashtable
 # Remove all duplicate items
 Get-DuplicateItem -Path 'C:/folder1' | Remove-Item
 
-# Get duplicate files in 'C:/folder1' and its descendents
+# Remove all duplicate files in 'C:/folder1' and its descendents
 Get-DuplicateItem -Path 'C:/folder1' -Recurse | Remove-Item
 ```
 
