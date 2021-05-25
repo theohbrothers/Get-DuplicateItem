@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/theohbrothers/Get-DuplicateItem.svg?branch=master)](https://travis-ci.org/theohbrothers/Get-DuplicateItem)
 
-A Powershell module to find duplicate files.
+Gets duplicate or non-duplicate files.
 
 ## Install
 
