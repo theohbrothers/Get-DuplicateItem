@@ -107,7 +107,7 @@ Describe "Get-DuplicateItem" -Tag 'Unit' {
         It 'Returns duplicate file paths' {
             $result = Get-DuplicateItem -Path $parentDir
 
-            $result.Count | Should -Be 2
+            ($result | Measure-Object).Count | Should -Be 2
             $result | Should -BeOfType [System.IO.FileInfo]
         }
 
@@ -131,21 +131,21 @@ Describe "Get-DuplicateItem" -Tag 'Unit' {
         It 'Returns duplicate file paths in all descendent folders' {
             $result = Get-DuplicateItem -Path $parentDir -Recurse
 
-            $result.Count | Should -Be 4
+            ($result | Measure-Object).Count | Should -Be 4
             $result | Should -BeOfType [System.IO.FileInfo]
         }
 
         It 'Returns non-duplicates file paths' {
             $result = Get-DuplicateItem -Path $parentDir -Inverse
 
-            $result.Count | Should -Be 1
+            ($result | Measure-Object).Count | Should -Be 1
             $result | Should -BeOfType [System.IO.FileInfo]
         }
 
         It 'Returns non-duplicates file paths in all descendent folders' {
             $result = Get-DuplicateItem -Path $parentDir -Inverse -Recurse
 
-            $result.Count | Should -Be 2
+            ($result | Measure-Object).Count | Should -Be 2
             $result | Should -BeOfType [System.IO.FileInfo]
         }
 
