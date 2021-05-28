@@ -22,10 +22,10 @@
     # TypesToProcess = @()
     # FormatsToProcess = @()
     # NestedModules = @()
-    FunctionsToExport = @()
-    CmdletsToExport = @(
-        'Get-DuplicateItem'
+    FunctionsToExport = @(
+        Get-ChildItem $PSScriptRoot/../../../src/Get-DuplicateItem/public -Exclude *.Tests.ps1 | % { $_.BaseName }
     )
+    CmdletsToExport = @()
     VariablesToExport = @()
     AliasesToExport = @()
     # DscResourcesToExport = @()
