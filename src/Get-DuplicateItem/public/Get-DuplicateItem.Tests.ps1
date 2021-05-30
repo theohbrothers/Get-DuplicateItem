@@ -94,15 +94,15 @@ Describe "Get-DuplicateItem" -Tag 'Unit' {
 
         $parentDir = "TestDrive:\parent"
         New-Item $parentDir -ItemType Directory -Force > $null
-        'foo'           | Out-File -Path "$parentDir\file1"  -Encoding utf8 -Force
-        'foo'           | Out-File -Path "$parentDir\file2" -Encoding utf8 -Force
-        'foooooooo'     | Out-File -Path "$parentDir\file3" -Encoding utf8 -Force
+        'foo'           | Out-File "$parentDir\file1"  -Encoding utf8 -Force
+        'foo'           | Out-File "$parentDir\file2" -Encoding utf8 -Force
+        'foooooooo'     | Out-File "$parentDir\file3" -Encoding utf8 -Force
 
         $childDir = "$parentDir\child"
         New-Item $childDir -ItemType Directory -Force > $null
-        'foo'           | Out-File -Path "$childDir\file1"  -Encoding utf8 -Force
-        'foo'           | Out-File -Path "$childDir\file2" -Encoding utf8 -Force
-        'foooooooo123'  | Out-File -Path "$childDir\file4" -Encoding utf8 -Force
+        'foo'           | Out-File "$childDir\file1"  -Encoding utf8 -Force
+        'foo'           | Out-File "$childDir\file2" -Encoding utf8 -Force
+        'foooooooo123'  | Out-File "$childDir\file4" -Encoding utf8 -Force
 
         It 'Returns duplicate file paths' {
             $result = Get-DuplicateItem -Path $parentDir
