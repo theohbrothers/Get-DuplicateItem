@@ -11,26 +11,26 @@ Describe "Get-DuplicateItem" -Tag 'Unit' {
         It 'Shows error when Path does not exist' {
             Get-DuplicateItem -Path $invalidPath -ErrorVariable err -ErrorAction Continue 2>$null
 
-            $err.Count | Should Not Be 0
+            $err.Count | Should -Not -Be 0
         }
 
         It 'Shows error when LiteralPath does not exist' {
             Get-DuplicateItem -LiteralPath $invalidPath -ErrorVariable err -ErrorAction Continue 2>$null
 
-            $err.Count | Should Not Be 0
+            $err.Count | Should -Not -Be 0
         }
 
         It 'Shows error when pipeline object is not a string' {
             $invalidPathCollection = @( @( "foo", "bar") )
             $invalidPathCollection | Get-DuplicateItem -ErrorVariable err -ErrorAction Continue 2>$null
 
-            $err.Count | Should Not Be 0
+            $err.Count | Should -Not -Be 0
         }
 
         It 'Shows error when pipeline object is not an existing Path' {
             $invalidPath | Get-DuplicateItem -ErrorVariable err -ErrorAction Continue 2>$null
 
-            $err.Count | Should Not Be 0
+            $err.Count | Should -Not -Be 0
         }
 
     }
@@ -66,26 +66,26 @@ Describe "Get-DuplicateItem" -Tag 'Unit' {
         It 'Remains silent when Path does not exist' {
             $err = Get-DuplicateItem -Path $invalidPath -ErrorVariable err -ErrorAction SilentlyContinue
 
-            $err | Should Be $null
+            $err | Should -Be $null
         }
 
         It 'Remains silent when LiteralPath does not exist' {
             $err = Get-DuplicateItem -Path $invalidPath -ErrorVariable err -ErrorAction SilentlyContinue
 
-            $err | Should Be $null
+            $err | Should -Be $null
         }
 
         It 'Remains silent when pipeline object is not a string' {
             $invalidPathCollection = @( @( "foo", "bar") )
             $err = $invalidPathCollection | Get-DuplicateItem -ErrorVariable err -ErrorAction SilentlyContinue
 
-            $err | Should Be $null
+            $err | Should -Be $null
         }
 
         It 'Remains silent when pipeline object is not an existing Path' {
             $err = $invalidPath | Get-DuplicateItem -ErrorVariable err -ErrorAction SilentlyContinue
 
-            $err | Should Be $null
+            $err | Should -Be $null
         }
 
     }
